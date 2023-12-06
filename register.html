@@ -37,6 +37,7 @@
 								<div class="custom-control custom-checkbox">
 									<input type="checkbox" class="custom-control-input" id="cb1">
 									<label class="custom-control-label text-dark" for="cb1">I agree all terms & conditions</label>
+									<div id="validationMessage" class="text-danger validation-message"></div>
 								</div>
 							</div>
 						</div>
@@ -71,5 +72,25 @@
 			<div class="col-lg-6 col-md-6 d-none d-md-block image-container"></div>
 		</div>
 	</div>
+
+	<div class="toast-container">
+		<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+			<div class="toast-header">
+				<strong class="mr-auto">Registration Success</strong>
+				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="toast-body">
+				Thank you for registering! Your account has been created successfully.
+			</div>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+	<script src="register.js"></script>
 </body>
 </html>

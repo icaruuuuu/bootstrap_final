@@ -125,3 +125,19 @@
     background: #2eb7e5;
     color: black;
 }
+
+.validation-message {
+    font-size: 11px; 
+}
+
+.toast-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+.toast.show {
+    background: pink;
+}

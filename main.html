@@ -310,8 +310,9 @@
 
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Cart</h4>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <img src="image/memoire amore.png" height="35" width="100" >
+            <h4 class="modal-title">Cart</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
 
         <!-- Modal Body -->
@@ -326,7 +327,16 @@
             <strong>Quantity: </strong><span id="cartQuantity">0</span>
             <br><br>
             <strong>Total: </strong><span id="cartTotal">$0.00</span>
-          </div>
+            <!-- Checkout Button -->
+            <button class="btn btn-outline-success" id="checkoutBtn" onclick="checkout()">Checkout</button>
+
+            <script>
+                function checkout() {
+                alert("Thank You for purchasing Memoire Amore Products");
+                location.reload();
+                 }
+            </script>
+        </div>
       </div>
     </div>
   </div>

@@ -108,27 +108,8 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-  
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-              <button id="cart" type="button" class="btn btn-primary position-relative"><a class="nav-link" data-bs-toggle="modal" data-bs-target="#cartModal">Cart</a></button>
-          </li>
-          <div class="btn-group dropstart" style="max-width: 200px;">
-              <a class="btn dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <span><img src="https://cdn.icon-icons.com/icons2/2643/PNG/512/male_boy_person_people_avatar_icon_159358.png" height="30" width="30"></span>
-              </a>
-            
-              <ul class="dropdown-menu" style="max-width: 250px;">
-                  <p class="logo mt-2 mb-2 text-center">
-                      <img src="image/avatar.png" height="100" width="100"><br>
-                      Ako si Batman
       
-                  </p>
-                <li><a class="dropdown-item" href="profile.html">My Account</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="login.html">Logout</a></li>
-              </ul>
+      <a class="navbar-brand icon" href="main.html"> <i class="fa fa-arrow-left" style="color: #dc3545"></i></a>
   
             </div>
         </ul>
@@ -306,6 +287,18 @@
         $('body').css('padding-right', '0');
     });
 });
+
+function checkLoggedIn() {
+    var loggedInUser = localStorage.getItem('loggedInUser');
+    if (!loggedInUser) {
+        // Redirect to login page if not logged in
+        window.location.href = 'login.html';
+    }
+}
+
+// Call checkLoggedIn on pages where access should be restricted
+// For example, at the beginning of each protected page
+checkLoggedIn();
 
     </script>
 </body>

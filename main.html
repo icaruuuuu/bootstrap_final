@@ -460,29 +460,43 @@
       saveCartToLocalStorage();
     }
     function showSalesAnalytics() {
-    const salesAnalyticsModal = new bootstrap.Modal(document.getElementById('salesAnalyticsModal'));
-    salesAnalyticsModal.show();
+        const salesAnalyticsModal = new bootstrap.Modal(document.getElementById('salesAnalyticsModal'));
+        salesAnalyticsModal.show();
 
-    const salesAnalyticsList = document.getElementById('salesAnalyticsList');
-    salesAnalyticsList.innerHTML = '';
+        const salesAnalyticsList = document.getElementById('salesAnalyticsList');
+        salesAnalyticsList.innerHTML = '';
 
-    // Load sales analytics data from local storage
-    const savedSalesAnalytics = JSON.parse(localStorage.getItem('salesAnalytics')) || [];
+        // Load sales analytics data from local storage
+        const savedSalesAnalytics = JSON.parse(localStorage.getItem('salesAnalytics')) || [];
 
-    // Iterate through the saved sales analytics data and update the list
-    savedSalesAnalytics.forEach(data => {
-        const listItem = document.createElement('li');
-        listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-        listItem.innerHTML = `
-            <div>
-                <strong>${data.name}</strong>
-                Quantity: ${data.quantity}
-            </div>
-            <span>$${data.total.toFixed(2)}</span>
-        `;
-        salesAnalyticsList.appendChild(listItem);
-    });
-}
+        // Iterate through the saved sales analytics data and update the list
+        savedSalesAnalytics.forEach(data => {
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+            listItem.innerHTML = `
+                <div>
+                    <strong>${data.name}</strong>
+                    Quantity: ${data.quantity}
+                </div>
+                <span>$${data.total.toFixed(2)}</span>
+            `;
+            salesAnalyticsList.appendChild(listItem);
+        });
+
+          // Calculate and display the overall total and total quantity
+          const overallTotal = savedSalesAnalytics.reduce((total, data) => total + data.total, 0);
+            const overallQuantity = savedSalesAnalytics.reduce((quantity, data) => quantity + data.quantity, 0);
+            const totalListItem = document.createElement('li');
+            totalListItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+            totalListItem.innerHTML = `
+                <div>
+                    <strong>Total</strong>
+                    Quantity: ${overallQuantity}
+                </div>
+                <span>$${overallTotal.toFixed(2)}</span>
+            `;
+            salesAnalyticsList.appendChild(totalListItem);
+    }
 
 // Function to update the sales analytics data after checkout
 function updateSalesAnalytics() {

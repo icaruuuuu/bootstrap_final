@@ -27,21 +27,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
     profileForm.addEventListener('submit', function (event) {
         event.preventDefault();
-
+    
         // Update the user data in localStorage
         loggedInUser.fullName = fullNameInput.value;
         loggedInUser.emailAddress = emailAddressInput.value;
-        loggedInUser.password = newPasswordInput.value; // Update password
-
-        localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
-
-        // Update the user data in the storedUserData array if exists
+    
+        // Check if the user exists in storedUserData
         var userIndex = storedUserData.findIndex(user => user.emailAddress === loggedInUser.emailAddress);
+    
         if (userIndex !== -1) {
             storedUserData[userIndex] = loggedInUser;
-            localStorage.setItem('userData', JSON.stringify(storedUserData));
+        } else {
+            // If user doesn't exist, add them to storedUserData
+            storedUserData.push(loggedInUser);
         }
-
+    
+        localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+        localStorage.setItem('userData', JSON.stringify(storedUserData));
+    
         $('.toast').toast('show');
     });
 });

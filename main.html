@@ -207,35 +207,43 @@ function previewImage(input) {
         return;
     }
 
-    const newProduct = {
-        id: products.length + 1,
-        pic: URL.createObjectURL(productPic), // Use the object URL of the selected image
-        name: productName,
-        description: productDescription,
-        price: productPrice,
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+        const base64Image = e.target.result;
+
+        const newProduct = {
+            id: products.length + 1,
+            pic: base64Image,
+            name: productName,
+            description: productDescription,
+            price: productPrice,
+        };
+
+        products.push(newProduct);
+        saveProductsToLocalStorage();
+        renderProducts();
+
+        // Clear the form and close the modal
+        productPicInput.value = '';
+        document.getElementById('productName').value = '';
+        document.getElementById('productDescription').value = '';
+        document.getElementById('productPrice').value = '';
+
+        // Clear the image preview
+        const previewImage = document.getElementById('previewImage');
+        previewImage.src = '';
+
+        // Close the addProductModal using Bootstrap's modal method
+        const addProductModal = document.getElementById('addProductModal');
+        const bootstrapModal = bootstrap.Modal.getInstance(addProductModal);
+
+        if (bootstrapModal) {
+            bootstrapModal.hide();
+        }
     };
 
-    products.push(newProduct);
-    saveProductsToLocalStorage();
-    renderProducts();
-
-    // Clear the form and close the modal
-    productPicInput.value = '';
-    document.getElementById('productName').value = '';
-    document.getElementById('productDescription').value = '';
-    document.getElementById('productPrice').value = '';
-
-    // Clear the image preview
-    const previewImage = document.getElementById('previewImage');
-    previewImage.src = '';
-
-    // Close the addProductModal using Bootstrap's modal method
-    const addProductModal = document.getElementById('addProductModal');
-    const bootstrapModal = bootstrap.Modal.getInstance(addProductModal);
-
-    if (bootstrapModal) {
-        bootstrapModal.hide();
-    }
+    reader.readAsDataURL(productPic);
 }
 
         // Function to save products to local storage
@@ -314,13 +322,18 @@ function previewImage(input) {
         products[productIndex].price = updatedPrice;
 
         if (updatedPic) {
-            products[productIndex].pic = URL.createObjectURL(updatedPic);
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const base64Image = e.target.result;
+                products[productIndex].pic = base64Image; // Update the Base64 string
+                saveProductsToLocalStorage();
+                renderProducts();
+            };
+            reader.readAsDataURL(updatedPic);
+        } else {
+            saveProductsToLocalStorage();
+            renderProducts();
         }
-
-        // Save the updated products to localStorage
-        saveProductsToLocalStorage();
-
-        renderProducts();
 
         // Close the productDetailsModal using Bootstrap's modal method
         const updateProductModal = document.getElementById('updateProductModal');
@@ -331,6 +344,7 @@ function previewImage(input) {
         }
     }
 }
+
 
 
 // Function to save products to local storage

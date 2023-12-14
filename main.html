@@ -9,7 +9,7 @@
 <body>
 
     <style>
-.product-popup {
+      .product-popup {
             max-width: 90%;
             margin: 0 auto;
         }
@@ -25,6 +25,11 @@
             width: 100%;
             height: 200px;
             object-fit: cover;
+        }
+
+        #salesAnalyticsModal .modal-body {
+            max-height: 400px;
+            overflow-y: auto;
         }
       </style>
 
@@ -66,6 +71,7 @@
   <!-- Add Product Form -->
   <div class="mb-3">
     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Product</button>
+    <button class="btn btn-info" onclick="showSalesAnalytics()">Sales </button>
   </div>
 
   <!-- Product List -->
@@ -146,7 +152,8 @@
         
   <script>
 
-function previewImage(input) {
+
+  function previewImage(input) {
     const preview = document.getElementById('previewImage');
     const file = input.files[0];
 
@@ -347,8 +354,8 @@ function previewImage(input) {
 
 
 
-// Function to save products to local storage
-function saveProductsToLocalStorage() {
+    // Function to save products to local storage
+    function saveProductsToLocalStorage() {
     localStorage.setItem('products', JSON.stringify(products));
 }
 
@@ -406,6 +413,16 @@ function saveProductsToLocalStorage() {
       }
     }
 
+    function saveCartToLocalStorage() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+
+  // Function to load cart from local storage
+  function loadCartFromLocalStorage() {
+    cart = JSON.parse(localStorage.getItem('cart')) || [];
+    renderCart();
+  }
+
     // Function to render the cart
     function renderCart() {
       const cartList = document.getElementById('cartList');
@@ -439,14 +456,104 @@ function saveProductsToLocalStorage() {
 
       cartTotal.textContent = `$${totalAmount.toFixed(2)}`;
       cartQuantity.textContent = totalQuantity.toString();
-    }
 
+      saveCartToLocalStorage();
+    }
+    function showSalesAnalytics() {
+    const salesAnalyticsModal = new bootstrap.Modal(document.getElementById('salesAnalyticsModal'));
+    salesAnalyticsModal.show();
+
+    const salesAnalyticsList = document.getElementById('salesAnalyticsList');
+    salesAnalyticsList.innerHTML = '';
+
+    // Load sales analytics data from local storage
+    const savedSalesAnalytics = JSON.parse(localStorage.getItem('salesAnalytics')) || [];
+
+    // Iterate through the saved sales analytics data and update the list
+    savedSalesAnalytics.forEach(data => {
+        const listItem = document.createElement('li');
+        listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+        listItem.innerHTML = `
+            <div>
+                <strong>${data.name}</strong>
+                Quantity: ${data.quantity}
+            </div>
+            <span>$${data.total.toFixed(2)}</span>
+        `;
+        salesAnalyticsList.appendChild(listItem);
+    });
+}
+
+// Function to update the sales analytics data after checkout
+function updateSalesAnalytics() {
+    // Load sales analytics data from local storage
+    const savedSalesAnalytics = JSON.parse(localStorage.getItem('salesAnalytics')) || [];
+
+    // Update existing entries or add new entries for each product in the cart
+    cart.forEach(item => {
+        const existingEntry = savedSalesAnalytics.find(entry => entry.name === item.name);
+
+        if (existingEntry) {
+            // Update quantity and total for existing product
+            existingEntry.quantity += item.quantity;
+            existingEntry.total += item.price * item.quantity;
+        } else {
+            // Add new entry for a product not present in sales analytics
+            savedSalesAnalytics.push({
+                name: item.name,
+                quantity: item.quantity,
+                total: item.price * item.quantity
+            });
+        }
+    });
+
+    // Save the updated sales analytics data to local storage
+    localStorage.setItem('salesAnalytics', JSON.stringify(savedSalesAnalytics));
+}
+
+
+ // Function to clear sales analytics
+ function clearSalesAnalytics() {
+    localStorage.removeItem('salesAnalytics');
+    loadCartFromLocalStorage();
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Load cart from local storage on page load
+    loadCartFromLocalStorage();
+  });
     // Initial rendering of products and cart
     renderProducts();
 
 
 
   </script>
+
+  <!-- Modal for sales analytics -->
+<div class="modal" id="salesAnalyticsModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Sales Analytics</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <ul class="list-group" id="salesAnalyticsList">
+          <!-- Sales analytics will be displayed here -->
+        </ul>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" onclick="clearSalesAnalytics()">Clear Analytics</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <!-- Modal for updating a product -->
   <div class="modal" id="updateProductModal">
@@ -507,10 +614,28 @@ function saveProductsToLocalStorage() {
             <button class="btn btn-outline-success" id="checkoutBtn" onclick="checkout()">Checkout</button>
 
             <script>
-                function checkout() {
+              function checkout() {
                 alert("Thank You for purchasing Memoire Amore Products");
-                location.reload();
-                 }
+
+                // Update the sales analytics data
+                updateSalesAnalytics();
+
+                // Save the cart to local storage
+                saveCartToLocalStorage();
+
+                // Clear the cart and update the display
+                cart = [];
+                renderCart();
+
+                // Close the cartModal using Bootstrap's modal method
+                const cartModal = document.getElementById('cartModal');
+                const bootstrapModal = bootstrap.Modal.getInstance(cartModal);
+
+                if (bootstrapModal) {
+                    bootstrapModal.hide();
+                }
+            }
+            
             </script>
         </div>
       </div>

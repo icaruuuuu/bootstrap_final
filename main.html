@@ -9,13 +9,17 @@
 <body>
 
     <style>
+
+nav.navbar {
+    background-color: #fda4ea; /* Light Pink */
+  }
       .product-popup {
             max-width: 90%;
             margin: 0 auto;
         }
 
         .product-card {
-            border: 1px solid #ddd;
+            border: 1px solid #dd9dd5;
             border-radius: 8px;
             overflow: hidden;
             margin-bottom: 20px;
@@ -27,13 +31,70 @@
             object-fit: cover;
         }
 
-        #salesAnalyticsModal .modal-body {
-            max-height: 400px;
-            overflow-y: auto;
-        }
+        #salesAnalyticsModal .modal-dialog {
+    max-width: 40%;
+  }
+
+  #salesAnalyticsModal .modal-content {
+    border-radius: 15px;
+  }
+
+  #salesAnalyticsModal .modal-header {
+    background-color: #dd9dd5;
+    color: white;
+    border-bottom: 2px solid #dd9dd5;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+
+  #salesAnalyticsModal .modal-body {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  #salesAnalyticsModal .modal-footer {
+    border-top: 2px solid #dd9dd5;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+
+  #salesAnalyticsList .list-group-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  #salesAnalyticsList .list-group-item:hover {
+    background-color: #eb9ee0;
+  }
+
+  #salesAnalyticsList .list-group-item div {
+    flex-grow: 1;
+  }
+
+  #salesAnalyticsList .list-group-item span {
+    min-width: 100px;
+    text-align: right;
+  }
+
+  #salesAnalyticsList .list-group-item strong {
+    font-weight: bold;
+    color: #007bff;
+  }
+
+  #salesAnalyticsList .list-group-item Quantity {
+    margin-left: 10px;
+    font-weight: bold;
+    color: #dd9dd5;
+  }
+
+  #salesAnalyticsList .list-group-item img {
+    max-width: 50px;
+    margin-right: 10px;
+  }
       </style>
 
-<nav class="navbar navbar-expand-lg bg-dark-subtle text-emphasis-dark">
+<nav class="navbar navbar-expand-lg text-emphasis-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="main.html"><img id="ma-logo" src="image/memoire amore.png" alt="memoire amore" draggable="false" height="40" width="150"/></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

@@ -11,7 +11,7 @@
     <style>
 
 nav.navbar {
-    background-color: #fda4ea; /* Light Pink */
+  background: linear-gradient(-180deg, #ed91ff, #ffb4ef); /* Light Pink */
   }
       .product-popup {
             max-width: 90%;
@@ -118,6 +118,7 @@ nav.navbar {
     
                 </p>
               <li><a class="dropdown-item" href="profile.html">My Account</a></li>
+              <li><a class="dropdown-item" onclick="showSalesAnalytics()">Sales </a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" onclick="logout()">Logout</a></li>
             </ul>
@@ -132,7 +133,7 @@ nav.navbar {
   <!-- Add Product Form -->
   <div class="mb-3">
     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Product</button>
-    <button class="btn btn-info" onclick="showSalesAnalytics()">Sales </button>
+    
   </div>
 
   <!-- Product List -->
